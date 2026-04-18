@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makson System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root { --primary: #2a5298; --secondary: #1e3c72; }
+        body { margin: 0; font-family: 'Kantumruy Pro', sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        /* Container សម្រាប់ Form */
+        .auth-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        ./* Style ថ្មីសម្រាប់តម្រឹមរូបភាព Logo */
+.logo-container {
+    width: 100px; /* កំណត់ទំហំទទឹង Logo តាមចិត្ត */
+    height: auto; /* ឱ្យកម្ពស់លោតតាមសមាមាត្ររូបភាព */
+    margin: 0 auto 20px; /* តម្រឹមចំកណ្តាល និងឃ្លាតពីខាងក្រោម */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.school-logo {
+    width: 100%; /* ឱ្យរូបភាពរីកពេញ Container */
+    height: auto;
+    object-fit: contain; /* ធានាថារូបភាពមិនទាញខូចរាង */
+}
+        h2 { color: #333; margin-bottom: 20px; font-size: 20px; }
+        
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        .btn:hover { background: var(--secondary); }
+        
+        .toggle-link { margin-top: 20px; font-size: 14px; color: #666; }
+        .toggle-link span { color: var(--primary); cursor: pointer; font-weight: bold; }
+
+        /* ផ្ទាំង Homepage (លាក់ទុក) */
+        #homepage { display: none; background: white; padding: 40px; border-radius: 12px; width: 90%; max-width: 900px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+
+    <div id="authBox" class="auth-container">
+        <div class="logo-container">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvZpWdtCL_sQRauL-eLGALOKLFnmMqCpfSndf8imP1gROyCluO&s" alt="School Logo" class="school-logo">
+</div>
+        <h2 id="authTitle">Welcome to MAKSON</h2>
+        
+        <form id="authForm">
+            <input type="text" id="contact" name="contact" placeholder="Email / Phone number" required>
+            <input type="password" id="password" name="password" placeholder="password" required>
+            <button type="submit" id="submitBtn" class="btn">Sign in</button>
+        </form>
+
+        <div class="toggle-link" id="toggleText">
+            Don't have account yet?  <span onclick="toggleAuth(true)">Sign up</span>
+        </div>
+    </div>
+
+
+
+    <div id="homepage" style="display: none;">
+    <div class="dashboard-container">
+        <h1 style="color: #2a5298; margin-bottom: 10px;">Welcome to MAKSON Scoring System</h1>
+        <h3 style="color: #666; font-weight: normal; margin-bottom: 30px;">Please select the program to the data score input</h3>
+        <div class="program-options">
+            <div class="program-card" onclick="selectProgram('Chinese')">
+                <h2>Chinese Programme</h2>
+                <p>កម្មវិធីសិក្សាភាសាចិន</p>
+            </div>
+
+            <div class="program-card" onclick="selectProgram('International')">
+                <h2>International Programme</h2>
+                <p>កម្មវិធីសិក្សាអន្តរជាតិ</p>
+            </div>
+
+            <div class="program-card" onclick="selectProgram('National')">
+                <h2>National Programme</h2>
+                <p>កម្មវិធីសិក្សាចំណេះដឹងទូទៅ</p>
+            </div>
+        </div>
+        
+
+        <button class="btn" style="width: auto; padding: 10px 30px; margin-top: 40px; background: #666;" onclick="location.reload()">ចាកចេញពីប្រព័ន្ធ</button>
+            </div>
+        </div>
+
+    
+    <div id="panel-Chinese" class="content-panel" style="display: none;">
+    <div class="dashboard-container">
+        <h1>🏮 Chinese Programme</h1>
+        <p>ស្វាគមន៍មកកាន់ទំព័រគ្រប់គ្រងពិន្ទុភាសាចិន</p>
+        <hr>
+        <button class="btn" onclick="backToHome()">ត្រឡប់ក្រោយ</button>
+    </div>
+</div>
+
+<div id="panel-International" class="content-panel" style="display: none;">
+    <div class="dashboard-container">
+        <h1>🌎 International Programme</h1>
+        <p>ស្វាគមន៍មកកាន់ទំព័រគ្រប់គ្រងពិន្ទុអន្តរជាតិ</p>
+        <hr>
+        <button class="btn" onclick="backToHome()">ត្រឡប់ក្រោយ</button>
+    </div>
+</div>
+
+<div id="page-National" class="page-content" style="display: none;">
+    <div class="dashboard-container">
+        <h1 style="color: #27ae60;">🇰🇭 បញ្ចូលពិន្ទុ - National Programme</h1>
+        <form id="form-National" onsubmit="submitGrade(event, 'National')">
+            <input type="text" name="studentName" placeholder="ឈ្មោះសិស្ស" required>
+            <select name="subject" required style="width: 100%; padding: 12px; margin: 8px 0; border-radius: 6px; border: 1px solid #ddd;">
+                <option value="">--ជ្រើសរើសមុខវិជ្ជា--</option>
+                <option value="ភាសាខ្មែរ">ភាសាខ្មែរ</option>
+                <option value="គណិតវិទ្យា">គណិតវិទ្យា</option>
+                <option value="រូបវិទ្យា">រូបវិទ្យា</option>
+            </select>
+            <input type="number" name="score" placeholder="ពិន្ទុសរុប" required>
+            <button type="submit" class="btn">រក្សាទុកពិន្ទុ</button>
+        </form>
+        <br>
+        <button class="btn" style="background: #555; width: auto;" onclick="showDashboard()">ត្រឡប់ក្រោយ</button>
+    </div>
+</div>
+    </div>
+</div>
+</div>
+
+
+
+
+
+    <script>
+        let isRegisterMode = false;
+
+        function toggleAuth(register) {
+            isRegisterMode = register;
+            const title = document.getElementById('authTitle');
+            const btn = document.getElementById('submitBtn');
+            const toggleText = document.getElementById('toggleText');
+
+            if (isRegisterMode) {
+                title.innerText = "ចុះឈ្មោះគណនីថ្មី";
+                btn.innerText = "ចុះឈ្មោះឥឡូវនេះ";
+                toggleText.innerHTML = 'មានគណនីរួចហើយ? <span onclick="toggleAuth(false)">ចូលប្រើប្រាស់</span>';
+            } else {
+                title.innerText = "សូមស្វាគមន៍ មកកាន់ Makson";
+                btn.innerText = "ចូលប្រើប្រាស់";
+                toggleText.innerHTML = 'មិនទាន់មានគណនីមែនទេ? <span onclick="toggleAuth(true)">ចុះឈ្មោះថ្មី</span>';
+            }
+        }
+
+        document.getElementById('authForm').onsubmit = function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "កំពុងដំណើរការ...";
+
+            if (isRegisterMode) {
+                // ហៅទៅ Function ចុះឈ្មោះក្នុង Code.gs
+                google.script.run
+                    .withSuccessHandler(function(res) {
+                        Swal.fire('ជោគជ័យ', 'គណនីត្រូវបានបង្កើត!', 'success');
+                        toggleAuth(false); // ប្តូរមក Login វិញក្រោយចុះឈ្មោះរួច
+                        btn.disabled = false;
+                        btn.innerText = "ចូលប្រើប្រាស់";
+                    })
+                    .processSignUp(this);
+            } else {
+                // ហៅទៅ Function Login ក្នុង Code.gs
+                google.script.run
+                    .withSuccessHandler(function(userExists) {
+                        if (userExists) {
+                            document.getElementById('authBox').style.display = 'none';
+                            document.getElementById('homepage').style.display = 'block';
+                            document.body.style.background = "#fff";
+                        } else {
+                            Swal.fire('បរាជ័យ', 'ទិន្នន័យមិនត្រឹមត្រូវ ឬគ្មានគណនីនេះទេ', 'error');
+                            btn.disabled = false;
+                            btn.innerText = "ចូលប្រើប្រាស់";
+                        }
+                    })
+                    .checkLogin(this);
+            }
+        }
+
+        function selectProgram(programName) {
+    Swal.fire({
+        title: 'អ្នកបានជ្រើសរើស',
+        text: 'កំពុងចូលទៅកាន់៖ ' + programName + ' Programme',
+        icon: 'info',
+        confirmButtonColor: '#2a5298'
+    });
+    
+    // នៅទីនេះ អ្នកអាចសរសេរកូដដើម្បីបើកផ្ទាំងតារាងពិន្ទុតាមកម្មវិធីនីមួយៗ
+    console.log("Selected Program: " + programName);
+
+}
+
+function submitGrade(event, program) {
+    event.preventDefault();
+    const form = event.target;
+    const btn = form.querySelector('button');
+    
+    btn.innerText = "កំពុងរក្សាទុក...";
+    btn.disabled = true;
+
+    // បញ្ជូនទិន្នន័យទៅកាន់ function saveScore ក្នុង Code.gs
+    google.script.run
+        .withSuccessHandler(function(res) {
+            Swal.fire('ជោគជ័យ', 'ពិន្ទុត្រូវបានរក្សាទុកក្នុងផ្នែក ' + program, 'success');
+            form.reset();
+            btn.innerText = "រក្សាទុកពិន្ទុ";
+            btn.disabled = false;
+        })
+        .saveScore(program, {
+            name: form.studentName.value,
+            subject: form.subject.value,
+            score: form.score.value
+        });
+}
+
+
+function saveScore(program, data) {
+  const ss = SpreadsheetApp.openById("ដាក់_ID_របស់_Sheet_អ្នក_នៅទីនេះ");
+  
+  // ជ្រើសរើស Tab ទៅតាមឈ្មោះកម្មវិធី (National, Chinese, International)
+  const sheet = ss.getSheetByName(program);
+  
+  if (sheet) {
+    sheet.appendRow([
+      new Date(),     // កាលបរិច្ឆេទ
+      data.name,      // ឈ្មោះសិស្ស
+      data.subject,   // មុខវិជ្ជា
+      data.score      // ពិន្ទុ
+    ]);
+    return "Saved";
+  } else {
+    throw new Error("រកមិនឃើញ Tab ឈ្មោះ " + program);
+  }
+}
+
+
+    </script>
+</body>
+</html>
